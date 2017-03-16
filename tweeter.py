@@ -46,9 +46,9 @@ for item in start_urls:
 	elif item['page'] == 'AA':
 		response = load_response(item['url'])
 		hxs = Selector(response=response)
-		post_link = hxs.xpath(AA_POST_URL_XPATH).extract()
-		heading = hxs.xpath(AA_POST_HEADING).extract()
-		tweet_message=''.join(heading)+' @androidauth\n'+' '.join(post_link)
-		print tweet_message
-		tweet(tweet_message)
-		sleep(600)
+		post_links = hxs.xpath(AA_POST_URL_XPATH).extract()
+		headings = hxs.xpath(AA_POST_HEADING).extract()
+		data = dict(zip(headings,post_links))
+		for key,value in data.iteritems():
+			tweet(key + ' @androidauth\n' + value)
+			sleep(600)
